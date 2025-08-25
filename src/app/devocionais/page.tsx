@@ -152,7 +152,7 @@ export default function DevocionaisPage() {
             className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16"
           >
             <motion.div whileHover={{ scale: 1.05, y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
-              <Link href="/devocionais" className="block cursor-pointer">
+              <Link href="/" className="block cursor-pointer">
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/20 text-center shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden hover:border-blue-300 hover:bg-white/90">
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent" />
                   <div className="relative z-10">
@@ -161,14 +161,14 @@ export default function DevocionaisPage() {
                     </div>
                     <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-1 sm:mb-2">{devotionals.length}</div>
                     <p className="text-xs sm:text-sm text-slate-600 font-medium">Devocionais</p>
-                    <div className="text-xs text-blue-500 mt-2 font-medium">Ver Todos</div>
+                    <div className="text-xs text-blue-500 mt-2 font-medium">Página Inicial</div>
                   </div>
                 </div>
               </Link>
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.05, y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
-              <Link href="/devocionais" className="block cursor-pointer">
+              <Link href="/devocionais" className="block cursor-pointer" onClick={() => setSelectedTag(null)}>
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/20 text-center shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden hover:border-emerald-300 hover:bg-white/90">
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent" />
                   <div className="relative z-10">
@@ -177,7 +177,7 @@ export default function DevocionaisPage() {
                     </div>
                     <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-1 sm:mb-2">{allTags.length}</div>
                     <p className="text-xs sm:text-sm text-slate-600 font-medium">Categorias</p>
-                    <div className="text-xs text-emerald-500 mt-2 font-medium">Explorar</div>
+                    <div className="text-xs text-emerald-500 mt-2 font-medium">Limpar Filtros</div>
                   </div>
                 </div>
               </Link>
