@@ -9,6 +9,7 @@ import { fetchDevotionals, fetchTags } from "@/lib/api-client"
 import { Search, BookOpen, Calendar, Heart, BookText, Sparkles, Filter, TrendingUp } from "lucide-react"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import Link from "next/link"
 import type { DevotionalWithTags } from "../../lib/types"
 
 export default function DevocionaisPage() {
