@@ -210,18 +210,45 @@ export default function HomePage() {
                 transition={{ delay: 0.8, duration: 0.8 }}
                 className="flex flex-wrap justify-center gap-8 mb-8"
               >
-                <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-blue-600">365</div>
-                  <div className="text-sm text-slate-500 uppercase tracking-wider">Dias por Ano</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-indigo-600">24/7</div>
-                  <div className="text-sm text-slate-500 uppercase tracking-wider">Disponível</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-purple-600">100%</div>
-                  <div className="text-sm text-slate-500 uppercase tracking-wider">Bíblico</div>
-                </div>
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="cursor-pointer"
+                >
+                  <Link href="/devocionais" className="block p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 hover:border-blue-300 hover:from-blue-100 hover:to-blue-200 transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <div className="text-center">
+                      <div className="text-2xl md:text-3xl font-bold text-blue-600">365</div>
+                      <div className="text-sm text-slate-600 uppercase tracking-wider font-medium">Dias por Ano</div>
+                      <div className="text-xs text-blue-500 mt-2">Ver Devocionais</div>
+                    </div>
+                  </Link>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="cursor-pointer"
+                >
+                  <Link href="/devocionais" className="block p-6 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100 border-2 border-indigo-200 hover:border-indigo-300 hover:from-indigo-100 hover:to-indigo-200 transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <div className="text-center">
+                      <div className="text-2xl md:text-3xl font-bold text-indigo-600">24/7</div>
+                      <div className="text-sm text-slate-600 uppercase tracking-wider font-medium">Disponível</div>
+                      <div className="text-xs text-indigo-500 mt-2">Acessar Agora</div>
+                    </div>
+                  </Link>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="cursor-pointer"
+                >
+                  <Link href="/sobre" className="block p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 hover:border-purple-300 hover:from-purple-100 hover:to-purple-200 transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <div className="text-center">
+                      <div className="text-2xl md:text-3xl font-bold text-purple-600">100%</div>
+                      <div className="text-sm text-slate-600 uppercase tracking-wider font-medium">Bíblico</div>
+                      <div className="text-xs text-purple-500 mt-2">Saiba Mais</div>
+                    </div>
+                  </Link>
+                </motion.div>
               </motion.div>
             </div>
 
