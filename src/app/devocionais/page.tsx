@@ -5,8 +5,9 @@ import { DevotionalCard } from "@/components/devotional-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { fetchDevotionals, fetchTags } from "@/lib/api-client"
-import { Search, BookOpen, Calendar, Heart, BookText, Sparkles, Filter, TrendingUp } from "lucide-react"
+import { Search, BookOpen, Calendar, Heart, BookText, Sparkles, Filter, TrendingUp, Check, ExternalLink } from "lucide-react"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
@@ -19,6 +20,8 @@ export default function DevocionaisPage() {
   const [allTags, setAllTags] = useState<{ id: string; name: string; color: string | null }[]>([])
   const [loading, setLoading] = useState(true)
   const [total, setTotal] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedDevotionals, setSelectedDevotionals] = useState<string[]>([])
 
   // Carregar dados iniciais
   useEffect(() => {
@@ -79,6 +82,27 @@ export default function DevocionaisPage() {
       fraqueza: "from-slate-500 via-gray-500 to-zinc-500"
     }
     return colors[tag as keyof typeof colors] || "from-blue-500 via-indigo-500 to-purple-500"
+  }
+
+  // Funções para controlar seleção de devocionais
+  const toggleDevotionalSelection = (devotionalId: string) => {
+    setSelectedDevotionals(prev => 
+      prev.includes(devotionalId) 
+        ? prev.filter(id => id !== devotionalId)
+        : [...prev, devotionalId]
+    )
+  }
+
+  const handleSelectAll = () => {
+    if (selectedDevotionals.length === devotionals.length) {
+      setSelectedDevotionals([])
+    } else {
+      setSelectedDevotionals(devotionals.map(d => d.id))
+    }
+  }
+
+  const handleClearSelection = () => {
+    setSelectedDevotionals([])
   }
 
   if (loading) {
@@ -152,19 +176,144 @@ export default function DevocionaisPage() {
             className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16"
           >
             <motion.div whileHover={{ scale: 1.05, y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
-              <Link href="/" className="block cursor-pointer">
-                <div className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/20 text-center shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden hover:border-blue-300 hover:bg-white/90">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent" />
-                  <div className="relative z-10">
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg">
-                      <BookOpen className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-white" />
+              <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                <DialogTrigger asChild>
+                  <div className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/20 text-center shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden hover:border-blue-300 hover:bg-white/90 cursor-pointer">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent" />
+                    <div className="relative z-10">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg">
+                        <BookOpen className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-white" />
+                      </div>
+                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-1 sm:mb-2">{devotionals.length}</div>
+                      <p className="text-xs sm:text-sm text-slate-600 font-medium">Devocionais</p>
+                      <div className="text-xs text-blue-500 mt-2 font-medium">Ver Últimos</div>
                     </div>
-                    <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-1 sm:mb-2">{devotionals.length}</div>
-                    <p className="text-xs sm:text-sm text-slate-600 font-medium">Devocionais</p>
-                    <div className="text-xs text-blue-500 mt-2 font-medium">Página Inicial</div>
                   </div>
-                </div>
-              </Link>
+                </DialogTrigger>
+                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle className="text-2xl font-bold text-center">
+                      Últimos Devocionais Postados
+                    </DialogTitle>
+                  </DialogHeader>
+                  
+                  <div className="space-y-4">
+                    {/* Controles de seleção */}
+                    <div className="flex flex-wrap gap-2 justify-between items-center p-4 bg-slate-50 rounded-lg">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-slate-600">
+                          {selectedDevotionals.length} de {devotionals.length} selecionados
+                        </span>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleSelectAll}
+                          className="text-xs"
+                        >
+                          {selectedDevotionals.length === devotionals.length ? 'Desselecionar Todos' : 'Selecionar Todos'}
+                        </Button>
+                        {selectedDevotionals.length > 0 && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handleClearSelection}
+                            className="text-xs"
+                          >
+                            Limpar
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Lista de devocionais */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {devotionals.slice(0, 9).map((devotional) => (
+                        <motion.div
+                          key={devotional.id}
+                          whileHover={{ scale: 1.02 }}
+                          className={`relative p-4 rounded-lg border-2 transition-all duration-200 cursor-pointer ${
+                            selectedDevotionals.includes(devotional.id)
+                              ? 'border-blue-500 bg-blue-50'
+                              : 'border-slate-200 bg-white hover:border-slate-300'
+                          }`}
+                          onClick={() => toggleDevotionalSelection(devotional.id)}
+                        >
+                          {/* Checkbox visual */}
+                          <div className={`absolute top-2 right-2 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                            selectedDevotionals.includes(devotional.id)
+                              ? 'border-blue-500 bg-blue-500'
+                              : 'border-slate-300 bg-white'
+                          }`}>
+                            {selectedDevotionals.includes(devotional.id) && (
+                              <Check className="w-3 h-3 text-white" />
+                            )}
+                          </div>
+
+                          {/* Conteúdo do devocional */}
+                          <div className="space-y-2">
+                            <h3 className="font-semibold text-slate-800 line-clamp-2">
+                              {devotional.title}
+                            </h3>
+                            <p className="text-sm text-slate-600 line-clamp-3">
+                              {devotional.content}
+                            </p>
+                            
+                            {/* Tags */}
+                            {devotional.tags && devotional.tags.length > 0 && (
+                              <div className="flex flex-wrap gap-1">
+                                {devotional.tags.slice(0, 2).map((tag) => (
+                                  <Badge
+                                    key={tag.id}
+                                    className={`text-xs bg-gradient-to-r ${getTagColor(tag.name)} text-white border-0`}
+                                  >
+                                    {tag.name}
+                                  </Badge>
+                                ))}
+                                {devotional.tags.length > 2 && (
+                                  <Badge variant="outline" className="text-xs">
+                                    +{devotional.tags.length - 2}
+                                  </Badge>
+                                )}
+                              </div>
+                            )}
+
+                            {/* Data e autor */}
+                            <div className="flex items-center justify-between text-xs text-slate-500">
+                              <span>{new Date(devotional.date).toLocaleDateString('pt-BR')}</span>
+                              <span>{devotional.author}</span>
+                            </div>
+
+                            {/* Botão para ver completo */}
+                            <Link
+                              href={`/devocional/${devotional.slug}`}
+                              onClick={(e) => e.stopPropagation()}
+                              className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 font-medium"
+                            >
+                              <ExternalLink className="w-3 h-3" />
+                              Ver completo
+                            </Link>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    {/* Ações */}
+                    {selectedDevotionals.length > 0 && (
+                      <div className="flex flex-col sm:flex-row gap-2 justify-center pt-4 border-t">
+                        <Button className="bg-blue-600 hover:bg-blue-700">
+                          <Check className="w-4 h-4 mr-2" />
+                          Ações com {selectedDevotionals.length} selecionado{selectedDevotionals.length > 1 ? 's' : ''}
+                        </Button>
+                        <Button variant="outline" onClick={handleClearSelection}>
+                          Limpar Seleção
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.05, y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
