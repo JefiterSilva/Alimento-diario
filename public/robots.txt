@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://alimento-diario.vercel.app/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# Allow important pages
+Allow: /devocionais
+Allow: /devocional/
+Allow: /sobre
+Allow: /login
+
+# Block sensitive files
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /*.txt$
+Disallow: /*.md$
+Disallow: /*.sql$
