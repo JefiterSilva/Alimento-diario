@@ -103,7 +103,7 @@ git push -u origin main
    NEXT_PUBLIC_SUPABASE_URL=sua_url_do_supabase
    NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_chave_anonima_do_supabase
    SUPABASE_SERVICE_ROLE_KEY=sua_chave_service_role_do_supabase
-   NEXTAUTH_URL=https://seu-dominio.vercel.app
+   NEXTAUTH_URL=https://seu-dominio.vercel.app 
    NEXTAUTH_SECRET=sua_chave_secreta_nextauth
    ```
 

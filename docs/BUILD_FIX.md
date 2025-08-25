@@ -45,6 +45,7 @@ git push origin main
 ## 📋 Dependências Corrigidas
 
 ### Antes (package.json)
+
 ```json
 {
   "devDependencies": {
@@ -55,6 +56,7 @@ git push origin main
 ```
 
 ### Depois (package.json)
+
 ```json
 {
   "devDependencies": {

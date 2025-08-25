@@ -1,4 +1,4 @@
-# 📖 Palavra de Vida - Devocionais Diários
+# 📖 Alimento Diário - Devocionais Bíblicos
 
 Uma aplicação moderna para compartilhar devocionais bíblicos com design responsivo e funcionalidades avançadas.
 
@@ -7,32 +7,26 @@ Uma aplicação moderna para compartilhar devocionais bíblicos com design respo
 - 🎨 **Design Moderno**: Interface elegante com glassmorphism e animações suaves
 - 📱 **Totalmente Responsivo**: Funciona perfeitamente em mobile, tablet e desktop
 - 🔍 **Busca Avançada**: Filtros por tags, autor e busca textual
-- 🗄️ **Banco de Dados PostgreSQL**: Armazenamento robusto com Prisma ORM
+- 🗄️ **Banco de Dados Supabase**: Armazenamento robusto e seguro
 - 🔐 **Sistema de Autenticação**: Login seguro para administradores
 - ⚡ **Performance Otimizada**: Next.js 15 com App Router
 - 🎭 **Animações**: Framer Motion para transições fluidas
 
 ## 🚀 Tecnologias
 
-- **Frontend**: Next.js 15, React 19, TypeScript
+- **Frontend**: Next.js 15, React 18, TypeScript
 - **Styling**: Tailwind CSS, Framer Motion
 - **UI Components**: Radix UI, Shadcn/ui
-- **Database**: PostgreSQL com Prisma ORM
-- **Authentication**: bcryptjs para hash de senhas
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
 - **Icons**: Lucide React
-
-## 📋 Pré-requisitos
-
-- Node.js 18+
-- npm ou yarn
-- Docker (opcional, para PostgreSQL)
 
 ## 🛠️ Instalação
 
 ### 1. Clone o repositório
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/JefiterSilva/alimento-diario.git
 cd alimento-diario
 ```
 
@@ -42,71 +36,25 @@ cd alimento-diario
 npm install
 ```
 
-### 3. Configure o banco de dados
+### 3. Configure as variáveis de ambiente
 
-#### Opção A: Docker (Recomendado)
+Crie um arquivo `.env.local` com as seguintes variáveis:
 
-```bash
-# Iniciar PostgreSQL
-docker-compose up -d postgres
-
-# Configurar banco
-npm run db:push
-npm run db:seed
+```env
+NEXT_PUBLIC_SUPABASE_URL=sua_url_do_supabase
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_chave_anonima
+SUPABASE_SERVICE_ROLE_KEY=sua_chave_service_role
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=sua_chave_secreta
 ```
 
-#### Opção B: PostgreSQL Local
-
-```bash
-# Instalar PostgreSQL e criar banco
-# Ver DATABASE_SETUP.md para instruções detalhadas
-
-npm run db:push
-npm run db:seed
-```
-
-### 4. Configure as variáveis de ambiente
-
-```bash
-# O arquivo .env já está configurado com valores padrão
-# Para produção, altere as senhas e secrets
-```
-
-### 5. Execute o projeto
+### 4. Execute o projeto
 
 ```bash
 npm run dev
 ```
 
 Acesse [http://localhost:3000](http://localhost:3000)
-
-## 🗄️ Banco de Dados
-
-### Estrutura
-
-- **Users**: Administradores e usuários
-- **Devotionals**: Devocionais publicados
-- **Tags**: Categorias dos devocionais
-- **DevotionalTags**: Relacionamento many-to-many
-
-### Comandos Úteis
-
-```bash
-# Gerar cliente Prisma
-npm run db:generate
-
-# Sincronizar schema
-npm run db:push
-
-# Criar migração
-npm run db:migrate
-
-# Popular dados
-npm run db:seed
-
-# Interface visual
-npm run db:studio
-```
 
 ## 🔐 Credenciais de Acesso
 
@@ -127,29 +75,12 @@ src/
 │   ├── ui/               # Componentes base (Shadcn/ui)
 │   ├── header.tsx        # Navegação principal
 │   └── devotional-card.tsx # Card de devocional
-├── lib/                  # Utilitários e configurações
-│   ├── prisma.ts         # Cliente Prisma
-│   ├── db-devotionals.ts # Funções de devocionais
-│   ├── db-auth.ts        # Funções de autenticação
-│   └── types.ts          # Tipos TypeScript
-└── prisma/               # Schema e configuração do banco
-    ├── schema.prisma     # Schema do banco
-    └── seed.ts           # Dados iniciais
+└── lib/                  # Utilitários e configurações
+    ├── supabase.ts       # Cliente Supabase
+    ├── supabase-devotionals.ts # Funções de devocionais
+    ├── supabase-auth.ts  # Funções de autenticação
+    └── types.ts          # Tipos TypeScript
 ```
-
-## 🎨 Design System
-
-### Cores Principais
-
-- **Azul**: `#3B82F6` (Primary)
-- **Índigo**: `#6366F1` (Secondary)
-- **Slate**: `#64748B` (Text)
-
-### Gradientes
-
-- **Primary**: `from-blue-600 via-indigo-600 to-purple-600`
-- **Success**: `from-emerald-500 via-teal-500 to-cyan-500`
-- **Warning**: `from-orange-500 via-amber-500 to-yellow-500`
 
 ## 🔧 Scripts Disponíveis
 
@@ -159,28 +90,24 @@ npm run dev          # Iniciar servidor de desenvolvimento
 npm run build        # Build para produção
 npm run start        # Iniciar servidor de produção
 npm run lint         # Verificar código
-
-# Banco de Dados
-npm run db:generate  # Gerar cliente Prisma
-npm run db:push      # Sincronizar schema
-npm run db:migrate   # Criar migração
-npm run db:seed      # Popular dados
-npm run db:studio    # Interface visual do banco
 ```
 
 ## 🚀 Deploy
 
-### Vercel (Recomendado)
+O projeto está configurado para deploy automático no Vercel. Para mais detalhes, consulte:
 
-1. Conecte seu repositório ao Vercel
-2. Configure as variáveis de ambiente
-3. Deploy automático
+- [Guia de Deploy](docs/DEPLOY_GUIDE.md)
+- [Variáveis de Ambiente](docs/ENVIRONMENT_VARIABLES.md)
+- [Próximos Passos](docs/NEXT_STEPS.md)
 
-### Outras Plataformas
+## 📚 Documentação
 
-- **Netlify**: Compatível com Next.js
-- **Railway**: Suporte nativo ao PostgreSQL
-- **DigitalOcean**: App Platform
+Toda a documentação de desenvolvimento está na pasta `docs/`:
+
+- **Setup e Configuração**: `docs/DATABASE_SETUP.md`
+- **Funcionalidades**: `docs/FUNCIONALIDADES_FINAIS.md`
+- **Soluções de Problemas**: `docs/BUILD_FIX.md`
+- **Correções**: Vários arquivos de correção na pasta `docs/`
 
 ## 🤝 Contribuição
 
@@ -192,15 +119,15 @@ npm run db:studio    # Interface visual do banco
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+Este projeto está sob a licença MIT.
 
 ## 📞 Suporte
 
 Para dúvidas ou problemas:
 
 - Abra uma issue no GitHub
-- Consulte a documentação em `DATABASE_SETUP.md`
-- Verifique os logs do banco de dados
+- Consulte a documentação em `docs/`
+- Verifique os logs do Supabase
 
 ---
 
